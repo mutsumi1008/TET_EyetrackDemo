@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-//全画面でゲーム起動をしている前提で作成しています。
+
+//取得値->座標返還->位置合わせはきっちりとはできていません
+//いくつかあるオブジェクトは、画面内座標値の目安として設置しています
 
 public class MoveByGaze : MonoBehaviour
 {
@@ -21,18 +23,21 @@ public class MoveByGaze : MonoBehaviour
     }
 
 
-    void onJump(){
+    void OnClose(){
+        //Escキー Binded
         Debug.Log( "QUIT");
         #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+            UnityEditor.EditorApplication.isPlaying = false;
         #else
-            Application.Quit();//ゲームプレイ終了
+            Application.Quit();
         #endif
     }
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(TC.TET.values.frame.avg.x);
+        //
+        //TET client returns gaze position based on display coordinates
         float Fx = TC.TET.values.frame.avg.x;
         float Fy = TC.TET.values.frame.avg.y;
         Gx = mFactor*(Fx/Sx - 0.5f);
